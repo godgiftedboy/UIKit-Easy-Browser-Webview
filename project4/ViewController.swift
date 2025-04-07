@@ -79,6 +79,21 @@ class ViewController: UIViewController, WKNavigationDelegate {
             progressView.progress = Float(webview.estimatedProgress)
         }
     }
+    //modern async variant using async/await.
+    //differs from one in tutorial
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
+        let url = navigationAction.request.url
+
+        if let host = url?.host {
+            for website in websites {
+                if host.contains(website) {
+                    return .allow
+                }
+            }
+        }
+
+        return .cancel
+    }
 
 
 }
