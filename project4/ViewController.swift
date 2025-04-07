@@ -11,6 +11,7 @@ import WebKit
 class ViewController: UIViewController, WKNavigationDelegate {
     var webview: WKWebView!;
     var progressView: UIProgressView!
+    var websites = ["apple.com", "hackingwithswift.com"]
     //loadView is called before the viewDidLoad so it is placed earlier.
     //but order doesnt matter anyways.
     override func loadView() {
@@ -37,7 +38,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         webview.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         
-        let url = URL(string: "https://www.hackingwithswift.com")!
+        let url = URL(string: "https://" + websites[0])!
         webview.load(URLRequest(url: url))
         webview.allowsBackForwardNavigationGestures = true
     }
@@ -45,9 +46,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc func openTapped (){
         //message is nil because this alert doesnt need one.
         let ac = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet);
-        ac.addAction(UIAlertAction(title: "apple.com", style: .default, handler: openPage));
-        ac.addAction(UIAlertAction(title: "hackingwithswift.com", style: .default, handler: openPage));
-        
+        for website in websites {
+            ac.addAction(UIAlertAction(title: website, style: .default, handler: openPage))
+        }
         //no handler here as it will just cancel the displayed alert box.
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel));
         
